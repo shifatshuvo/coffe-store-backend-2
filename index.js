@@ -34,6 +34,7 @@ async function run() {
 
     // const coffeeCollection = client.db('coffeeDB').collection('coffee');
     // const userCollection = client.db('coffeeDB').collection('user');
+
     const coffeeCollection = client.db('myCoffeeDB').collection('coffees');
     const userCollection = client.db('myCoffeeDB').collection('users');
 
@@ -98,6 +99,16 @@ async function run() {
       res.send(result);
     })
 
+    ////////////////////////
+    app.get('/your-posts/users/:id', async (req, res) => {
+      const userId = req.params.id;
+      // Find posts by user ID
+      const cursor = coffeeCollection.find({ userId: userId });
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
+
     //post
     app.post('/users', async (req, res) => {
       const user = req.body;
@@ -138,6 +149,7 @@ async function run() {
     // await client.close();
   }
 }
+
 run().catch(console.dir);
 
 // database stuff end
